@@ -45,27 +45,16 @@ public class CurrencyManager : MonoBehaviour
         _repository = new CurrencyRepository();
 
         List<CurrencyDTO> loadedCurrencies = _repository.Load();
-        if (loadedCurrencies == null)
+        for (int i = 0; i < (int)ECurrencyType.Count; ++i)
         {
-            for (int i = 0; i < (int)ECurrencyType.Count; ++i)
-            {
-                ECurrencyType type = (ECurrencyType)i;
+            ECurrencyType type = (ECurrencyType)i;
+            var loadedData = loadedCurrencies?.Find(data => data.Type == type);
+
+            // 저장된 데이터가 있다면 그 값.. 없다면 0
+            Currency currency = new Currency(type, loadedData != null ? loadedData.Value : 0);
             
-                // 골드, 다이아몬드 등을 0 값으로 생성후 딕셔너리에 삽입
-                Currency currency = new Currency(type, 0);
-                _currencies.Add(type, currency);
-            }
+            _currencies.Add(type, currency);
         }
-        else
-        {
-            foreach (var data in loadedCurrencies)
-            {
-                Currency currency = new Currency(data.Type, data.Value);
-                _currencies.Add(currency.Type, currency);
-            }
-        }
-        
-      
     }
 
     private List<CurrencyDTO> ToDtoList()

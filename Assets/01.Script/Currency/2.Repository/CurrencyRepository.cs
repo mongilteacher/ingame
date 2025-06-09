@@ -38,7 +38,6 @@ public class CurrencyRepository
     }
 }
 
-
 [Serializable]
 public struct CurrencySaveData
 {
