@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +12,14 @@ public class CurrencyRepository
     // Save
     public void Save(List<CurrencyDTO> dataList)
     {
-        CurrencySaveData data = new CurrencySaveData();
-        data.DataList = dataList;
+        CurrencySaveDatas datas = new CurrencySaveDatas();
+        datas.DataList = dataList.ConvertAll(data => new CurrencySaveData
+        {
+            Type = data.Type,
+            Value = data.Value
+        });           
 
-        string json = JsonUtility.ToJson(data);
+        string json = JsonUtility.ToJson(datas);
         PlayerPrefs.SetString(SAVE_KEY, json);
     }
    
@@ -25,15 +30,24 @@ public class CurrencyRepository
         {
             return null;
         }
-        
+
         string json = PlayerPrefs.GetString(SAVE_KEY);
-        CurrencySaveData data = JsonUtility.FromJson<CurrencySaveData>(json);
-        
-        return data.DataList;
+        CurrencySaveDatas datas = JsonUtility.FromJson<CurrencySaveDatas>(json);
+
+        return datas.DataList.ConvertAll<CurrencyDTO>(data => new CurrencyDTO(data.Type, data.Value));
     }
 }
 
-public class CurrencySaveData
+
+[Serializable]
+public struct CurrencySaveData
 {
-    public List<CurrencyDTO> DataList;
+    public ECurrencyType Type;
+    public int Value;
+}
+
+[Serializable]
+public class CurrencySaveDatas
+{
+    public List<CurrencySaveData> DataList;
 }
