@@ -48,10 +48,10 @@ public class CurrencyManager : MonoBehaviour
         for (int i = 0; i < (int)ECurrencyType.Count; ++i)
         {
             ECurrencyType type = (ECurrencyType)i;
-            var loadedData = loadedCurrencies?.Find(data => data.Type == type);
+            CurrencyDTO loadedCurrency = loadedCurrencies?.Find(data => data.Type == type);
 
             // 저장된 데이터가 있다면 그 값.. 없다면 0
-            Currency currency = new Currency(type, loadedData != null ? loadedData.Value : 0);
+            Currency currency = new Currency(type, loadedCurrency != null ? loadedCurrency.Value : 0);
             
             _currencies.Add(type, currency);
         }
