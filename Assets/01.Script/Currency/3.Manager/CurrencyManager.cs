@@ -39,8 +39,8 @@ public class CurrencyManager : MonoBehaviour
     private void Init()
     {
         // 생성
-        _currencies = new Dictionary<ECurrencyType, Currency>();
-            
+        _currencies = new Dictionary<ECurrencyType, Currency>((int)ECurrencyType.Count);
+
         // 레포지토리(깃허브)
         _repository = new CurrencyRepository();
 
