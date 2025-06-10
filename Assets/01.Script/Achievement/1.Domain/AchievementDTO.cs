@@ -12,26 +12,11 @@ public class AchievementDTO
     public readonly ECurrencyType RewardCurrencyType;
     public readonly int RewardAmount;
 
-    public AchievementDTO(
-        string id,
-        string name,
-        string description,
-        EAchievementCondition condition,
-        int goalValue,
-        int currentValue,
-        bool rewardClaimed,
-        ECurrencyType rewardCurrencyType,
-        int rewardAmount)
+    public AchievementDTO(string id, int currentValue, bool rewardClaimed)
     {
         ID = id;
-        Name = name;
-        Description = description;
-        Condition = condition;
-        GoalValue = goalValue;
         CurrentValue = currentValue;
         RewardClaimed = rewardClaimed;
-        RewardCurrencyType = rewardCurrencyType;
-        RewardAmount = rewardAmount;
     }
 
     public AchievementDTO(Achievement achievement)

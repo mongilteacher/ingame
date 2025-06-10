@@ -35,6 +35,7 @@ public class AchievementManager : MonoBehaviour
         // 초기화
 
         _achievements = new List<Achievement>();
+        
 
         foreach (var metaData in _metaDatas)
         {
