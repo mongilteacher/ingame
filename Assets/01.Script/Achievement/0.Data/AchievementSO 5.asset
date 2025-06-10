@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1acc77d623fc83046a9168d6960abcf9, type: 3}
   m_Name: AchievementSO 5
   m_EditorClassIdentifier: 
-  _id: 
-  _name: 
-  _description: 
-  _condition: 0
-  _goalValue: 0
-  _rewardCurrencyType: 0
-  _rewardAmount: 0
+  _id: ACH_TIME_001
+  _name: "\uC9C4\uB4DD\uD558\uAC8C"
+  _description: "\uD50C\uB808\uC774 \uB204\uC801 \uC2DC\uAC04 10\uBD84 \uB2EC\uC131"
+  _condition: 3
+  _goalValue: 600
+  _rewardCurrencyType: 1
+  _rewardAmount: 5

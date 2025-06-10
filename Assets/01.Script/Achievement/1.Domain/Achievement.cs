@@ -33,36 +33,37 @@ public class Achievement
      public bool RewardClaimed => _rewardClaimed;
 
      // 생성자
-     public Achievement(string id, string name, string description, EAchievementCondition condition, int goalValue, ECurrencyType rewardCurrencyType, int rewardAmount)
+     
+     public Achievement(AchievementSO metaData)
      {
-          if (string.IsNullOrEmpty(id))
+          if (string.IsNullOrEmpty(metaData.ID))
           {
                throw new Exception("업적 ID는 비어있을 수 없습니다.");
           }
-          if (string.IsNullOrEmpty(name))
+          if (string.IsNullOrEmpty(metaData.Name))
           {
                throw new Exception("업적 이름은 비어있을 수 없습니다.");
           }
-          if (string.IsNullOrEmpty(description))
+          if (string.IsNullOrEmpty(metaData.Description))
           {
                throw new Exception("업적 설명은 비어있을 수 없습니다.");
           }
-          if (goalValue <= 0)
+          if (metaData.GoalValue <= 0)
           {
                throw new Exception("업적 목표 값은 0보다 커야합니다.");
           }
-          if (rewardAmount <= 0)
+          if (metaData.RewardAmount <= 0)
           {
                throw new Exception("업적 보상 값은 0보다 커야합니다.");
           }
 
-          ID = id;
-          Name = name;
-          Description = description;
-          Condition = condition;
-          GoalValue = goalValue;
-          RewardCurrencyType = rewardCurrencyType;
-          RewardAmount = rewardAmount;
+          ID = metaData.ID;
+          Name = metaData.Name;
+          Description = metaData.Description;
+          Condition = metaData.Condition;
+          GoalValue = metaData.GoalValue;
+          RewardCurrencyType = metaData.RewardCurrencyType;
+          RewardAmount = metaData.RewardAmount;
      }
 
      public void Increase(int value)
