@@ -20,7 +20,7 @@ public class AchievementRepository
         PlayerPrefs.SetString(SAVE_KEY, json);
     }
 
-    public List<AchievementDTO> Load()
+    public List<AchievementSaveData> Load()
     {
         if (!PlayerPrefs.HasKey(SAVE_KEY))
         {
@@ -29,26 +29,11 @@ public class AchievementRepository
 
         string json = PlayerPrefs.GetString(SAVE_KEY);
         AchievementSaveDataList datas = JsonUtility.FromJson<AchievementSaveDataList>(json);
-
-        List<AchievementDTO> result = new List<AchievementDTO>();
-
-        foreach (var data in datas.DataList)
-        {
-            var dto = new AchievementDTO(data.ID, data.CurrentValue,data.RewardClaimed);
-            result.Add(dto);
-        }
-
-        return result;
+        
+        return datas.DataList;
     }
 }
 
-[Serializable]
-public struct AchievementSaveData
-{
-    public string ID;
-    public int CurrentValue;
-    public bool RewardClaimed;
-}
 
 [Serializable]
 public struct AchievementSaveDataList

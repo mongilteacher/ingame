@@ -42,7 +42,7 @@ public class AchievementManager : MonoBehaviour
         
         _achievements = new List<Achievement>();
 
-        List<AchievementDTO> saveDatas = _repository.Load();
+        List<AchievementSaveData> saveDatas = _repository.Load();
         // 데이터 초기화
         foreach (var metaData in _metaDatas)
         {
@@ -54,7 +54,7 @@ public class AchievementManager : MonoBehaviour
             }
             
             // 데이터 생성
-            AchievementDTO saveData = saveDatas?.Find(a => a.ID == metaData.ID) ?? null;
+            AchievementSaveData saveData = saveDatas?.Find(a => a.ID == metaData.ID) ?? new AchievementSaveData();
             Achievement achievement = new Achievement(metaData, saveData);
             _achievements.Add(achievement);
         }
