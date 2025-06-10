@@ -27,11 +27,17 @@ public class AchievementRepository
         }
 
         string json = PlayerPrefs.GetString(SAVE_KEY);
-        AchievementSaveDataList datas = JsonUtility.FromJson<AchievementSaveDataList >(json);
-        
-        // DTO로 변환해서 리턴
+        AchievementSaveDataList datas = JsonUtility.FromJson<AchievementSaveDataList>(json);
 
-        return null;
+        List<AchievementDTO> result = new List<AchievementDTO>();
+
+        foreach (var data in datas.DataList)
+        {
+            var dto = new AchievementDTO(data.ID, data.CurrentValue,data.RewardClaimed);
+            result.Add(dto);
+        }
+
+        return result;
     }
 }
 
