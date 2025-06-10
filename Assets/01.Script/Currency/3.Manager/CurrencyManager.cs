@@ -44,6 +44,7 @@ public class CurrencyManager : MonoBehaviour
         // 레포지토리(깃허브)
         _repository = new CurrencyRepository();
 
+        // 이후 열거형이 추가되더라도 알아서 잘 삽입되게 변경 완료
         List<CurrencyDTO> loadedCurrencies = _repository.Load();
         for (int i = 0; i < (int)ECurrencyType.Count; ++i)
         {
