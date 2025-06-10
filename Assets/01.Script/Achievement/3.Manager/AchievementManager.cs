@@ -14,6 +14,7 @@ public class AchievementManager : MonoBehaviour
     public List<AchievementDTO> Achievements => _achievements.ConvertAll((a) => new AchievementDTO(a));
 
     public event Action OnDataChanged;
+    public event Action<AchievementDTO> OnNewAchievementRewarded;
     
     private void Awake()
     {
@@ -50,7 +51,18 @@ public class AchievementManager : MonoBehaviour
         {
             if (achievement.Condition == condition)
             {
+                bool prevCanClaimReward = achievement.CanClaimReward();
+                
                 achievement.Increase(value);
+                
+                bool canClaimReward = achievement.CanClaimReward();
+
+                if (prevCanClaimReward == false && canClaimReward == true)
+                {
+                    // 이때가 바로 새로운 리워드 보상이 가능할때 
+                    // UI_AchievementNotification.Instance.Show(achievement);
+                    OnNewAchievementRewarded?.Invoke(new AchievementDTO(achievement));
+                }
             }
         }
 
