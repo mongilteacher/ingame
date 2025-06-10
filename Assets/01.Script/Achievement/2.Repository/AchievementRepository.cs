@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,7 +42,7 @@ public class AchievementRepository
     }
 }
 
-[SerializeField]
+[Serializable]
 public struct AchievementSaveData
 {
     public string ID;
@@ -49,7 +50,7 @@ public struct AchievementSaveData
     public bool RewardClaimed;
 }
 
-[SerializeField]
+[Serializable]
 public struct AchievementSaveDataList
 {
     public List<AchievementSaveData> DataList;

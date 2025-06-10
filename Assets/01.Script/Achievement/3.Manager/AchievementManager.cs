@@ -86,6 +86,8 @@ public class AchievementManager : MonoBehaviour
             }
         }
 
+        _repository.Save(Achievements);
+        
         OnDataChanged?.Invoke();
     }
     
@@ -101,6 +103,8 @@ public class AchievementManager : MonoBehaviour
         {
             CurrencyManager.Instance.Add(achievement.RewardCurrencyType, achievement.RewardAmount);
             
+            _repository.Save(Achievements);
+
             OnDataChanged?.Invoke();
             
             return true;
