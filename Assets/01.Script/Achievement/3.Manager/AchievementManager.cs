@@ -40,9 +40,20 @@ public class AchievementManager : MonoBehaviour
 
         foreach (var metaData in _metaDatas)
         {
+            Achievement duplicatedAchievement = FindByID(metaData.ID);
+            if (duplicatedAchievement != null)
+            {
+                throw new Exception($"업적 ID({metaData.ID})가 중복됩니다.");
+            }
+            
             Achievement achievement = new Achievement(metaData);
             _achievements.Add(achievement);
         }
+    }
+
+    private Achievement FindByID(string id)
+    {
+        return _achievements.Find((a) => a.ID == id);
     }
 
     public void Increase(EAchievementCondition condition, int value)
@@ -71,7 +82,7 @@ public class AchievementManager : MonoBehaviour
     
     public bool TryClaimReward(AchievementDTO achievementDto)
     {
-        Achievement achievement = _achievements.Find(a => a.ID == achievementDto.ID);
+        Achievement achievement = FindByID(achievementDto.ID);
         if (achievement == null)
         {
             return false;
