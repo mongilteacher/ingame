@@ -75,4 +75,21 @@ public class Achievement
           
           _currentValue += value;
      }
+
+     public bool CanClaimReward()
+     {
+          return _rewardClaimed == false && _currentValue >= GoalValue;
+     }
+
+     public bool TryClaimReward()
+     {
+          if (!CanClaimReward())
+          {
+               return false;
+          }
+
+          _rewardClaimed = true;
+          
+          return true;
+     }
 }

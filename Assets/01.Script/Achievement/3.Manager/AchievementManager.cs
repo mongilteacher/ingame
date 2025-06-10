@@ -11,7 +11,7 @@ public class AchievementManager : MonoBehaviour
     private List<AchievementSO> _metaDatas;
     
     private List<Achievement> _achievements;
-    public List<Achievement> Achievements => _achievements;
+    public List<AchievementDTO> Achievements => _achievements.ConvertAll((a) => new AchievementDTO(a));
 
     public event Action OnDataChanged;
     
@@ -54,5 +54,25 @@ public class AchievementManager : MonoBehaviour
         }
 
         OnDataChanged?.Invoke();
+    }
+    
+    public bool TryClaimReward(AchievementDTO achievementDto)
+    {
+        Achievement achievement = _achievements.Find(a => a.ID == achievementDto.ID);
+        if (achievement == null)
+        {
+            return false;
+        }
+
+        if (achievement.TryClaimReward())
+        {
+            CurrencyManager.Instance.Add(achievement.RewardCurrencyType, achievement.RewardAmount);
+            
+            OnDataChanged?.Invoke();
+            
+            return true;
+        }
+
+        return false;
     }
 }

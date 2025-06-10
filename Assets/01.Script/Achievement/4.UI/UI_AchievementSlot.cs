@@ -9,17 +9,34 @@ public class UI_AchievementSlot : MonoBehaviour
     public TextMeshProUGUI RewardCountTextUI;
     public Slider ProgressSlider;
     public TextMeshProUGUI ProgressTextUI;
-    public TextMeshProUGUI RewardClaimDate;
+    public TextMeshProUGUI RewardClaimDateTextUI;
     public Button RewardClaimButton;
 
-    public void Refresh(Achievement achievement)
+    private AchievementDTO _achievementDTO;
+
+    public void Refresh(AchievementDTO achievementDTO)
     {
-        NameTextUI.text = achievement.Name;
-        DescriptionTextUI.text = achievement.Description;
-        RewardCountTextUI.text = achievement.RewardAmount.ToString();
-        ProgressSlider.value = (float)achievement.CurrentValue / achievement.GoalValue;
-        ProgressTextUI.text = $"{achievement.CurrentValue} / {achievement.GoalValue}";
-        
-        // 등등....
+        _achievementDTO = achievementDTO;
+
+        NameTextUI.text = _achievementDTO.Name;
+        DescriptionTextUI.text = _achievementDTO.Description;
+        RewardCountTextUI.text = _achievementDTO.RewardAmount.ToString();
+        ProgressSlider.value = (float)_achievementDTO.CurrentValue / _achievementDTO.GoalValue;
+        ProgressTextUI.text = $"{_achievementDTO.CurrentValue} / {_achievementDTO.GoalValue}";
+
+        RewardClaimButton.interactable = achievementDTO.CanClaimReward();
     }
+
+    public void ClaimReward()
+    {
+        if (AchievementManager.Instance.TryClaimReward(_achievementDTO))
+        {
+            // 꽃 가루 뿌려주고   
+        }
+        else
+        {
+            // 진행도가 부족합니다...
+        }
+    }
+    
 }
