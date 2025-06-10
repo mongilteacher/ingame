@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ public class AchievementManager : MonoBehaviour
     private List<AchievementSO> _metaDatas;
     
     private List<Achievement> _achievements;
+    public List<Achievement> Achievements => _achievements;
+
+    public event Action OnDataChanged;
     
     private void Awake()
     {
@@ -37,5 +41,18 @@ public class AchievementManager : MonoBehaviour
             Achievement achievement = new Achievement(metaData);
             _achievements.Add(achievement);
         }
+    }
+
+    public void Increase(EAchievementCondition condition, int value)
+    {
+        foreach (var achievement in _achievements)
+        {
+            if (achievement.Condition == condition)
+            {
+                achievement.Increase(value);
+            }
+        }
+
+        OnDataChanged?.Invoke();
     }
 }
