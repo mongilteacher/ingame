@@ -19,7 +19,7 @@ public class AchievementRepository
         PlayerPrefs.SetString(SAVE_KEY, json);
     }
 
-    public List<AchievementSaveData> Load()
+    public List<AchievementDTO> Load()
     {
         if (!PlayerPrefs.HasKey(SAVE_KEY))
         {
@@ -28,8 +28,10 @@ public class AchievementRepository
 
         string json = PlayerPrefs.GetString(SAVE_KEY);
         AchievementSaveDataList datas = JsonUtility.FromJson<AchievementSaveDataList >(json);
+        
+        // DTO로 변환해서 리턴
 
-        return datas.DataList;
+        return null;
     }
 }
 
