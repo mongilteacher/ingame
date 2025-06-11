@@ -7,6 +7,8 @@ public class AccountManager : MonoBehaviour
     public static AccountManager Instance;
 
     private Account _myAccount;
+
+    private AccountRepository _repository;
     
     private void Awake()
     {
@@ -19,13 +21,27 @@ public class AccountManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        Init();
+    }
+
+    private void Init()
+    {
+        _repository = new AccountRepository();
     }
 
     private const string SALT = "123456";
     public bool TryRegister(string email, string nickname, string password)
     {
-        string encryptedPassword = Encryption(password + SALT);
-        Account account = new Account(email, nickname, password);
+        AccountSaveData saveData = _repository.Find(email);
+        if (saveData != null)
+        {
+            return false;
+        }
+        
+        string encryptedPassword = CryptoUtil.Encryption(password + SALT);
+        Account account = new Account(email, nickname, encryptedPassword);
+        _repository.Save(account.ToDTO());
         
         // 레포 저장
         
@@ -34,28 +50,22 @@ public class AccountManager : MonoBehaviour
     
     public bool TryLogin(string email, string password)
     {
+        AccountSaveData saveData = _repository.Find(email);
+        if (saveData == null)
+        {
+            return false;
+        }
+
+        if (CryptoUtil.Verify(password, saveData.Password, SALT))
+        {
+            _myAccount = new Account(saveData.Email, saveData.Nickname, saveData.Password);
+            return true;
+        }
+        
         return false;
     }
 
-    public string Encryption(string text)
-    {
-        // 해시 암호화 알고리즘 인스턴스를 생성한다.
-        SHA256 sha256 = SHA256.Create();
-            
-        // 운영체제 혹은 프로그래밍 언어별로 string 표현하는 방식이 다 다르므로
-        // UTF8 버전 바이트로 배열로 바꿔야한다.
-        byte[] bytes = Encoding.UTF8.GetBytes(text);
-        byte[] hash = sha256.ComputeHash(bytes);
-            
-        string resultText = string.Empty;
-        foreach (byte b in hash)
-        {
-            // byte를 다시 string으로 바꿔서 이어붙이기
-            resultText += b.ToString("X2");
-        }
-
-        return resultText;
-    }
+   
     
    
 }

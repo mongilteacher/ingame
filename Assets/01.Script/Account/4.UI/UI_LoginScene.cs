@@ -42,8 +42,6 @@ public class UI_LoginScene : MonoBehaviour
         
         LoginInputFields.ResultText.text    = string.Empty;
         RegisterInputFields.ResultText.text = string.Empty;
-
-        LoginCheck();
     }
 
     // 회원가입하기 버튼 클릭
@@ -65,27 +63,36 @@ public class UI_LoginScene : MonoBehaviour
     {
         // 1. 이메일 도메인 규칙을 확인한다.
         string email = RegisterInputFields.EmailInputField.text;
-        if (string.IsNullOrEmpty(email))
+        var emailSpecification = new AccountEmailSpecification();
+        if (!emailSpecification.IsSatisfiedBy(email))
         {
-            RegisterInputFields.ResultText.text = "이메일를 입력해주세요.";
+            RegisterInputFields.ResultText.text = emailSpecification.ErrorMessage;
             return;
         }
         
         // 2. 닉네임 도메인 규칙을 확인한다.
+        string nickname = RegisterInputFields.NicknameInputField.text;
+        var nicknameSpecification = new AccountNicknameSpecification();
+        if (!nicknameSpecification.IsSatisfiedBy(nickname))
+        {
+            RegisterInputFields.ResultText.text = nicknameSpecification.ErrorMessage;
+            return;
+        }
 
         // 2. 1차 비밀번호 입력을 확인한다.
         string password = RegisterInputFields.PasswordInputField.text;
-        if (string.IsNullOrEmpty(password))
+        var passwordSpecification = new AccountPasswordSpecification();
+        if(!passwordSpecification.IsSatisfiedBy(password))
         {
-            RegisterInputFields.ResultText.text = "비밀번호를 입력해주세요.";
+            RegisterInputFields.ResultText.text= passwordSpecification.ErrorMessage;
             return;
         }
 
         // 3. 2차 비밀번호 입력을 확인하고, 1차 비밀번호 입력과 같은지 확인한다.
         string password2 = RegisterInputFields.PasswordComfirmInputField.text;
-        if (string.IsNullOrEmpty(password2))
+        if(!passwordSpecification.IsSatisfiedBy(password2))
         {
-            RegisterInputFields.ResultText.text = "비밀번호를 입력해주세요.";
+            RegisterInputFields.ResultText.text= passwordSpecification.ErrorMessage;
             return;
         }
 
@@ -95,7 +102,6 @@ public class UI_LoginScene : MonoBehaviour
             return;
         }
 
-        string nickname = "티모";
         if (AccountManager.Instance.TryRegister(email, nickname, password))
         {
             // 5. 로그인 창으로 돌아간다.
@@ -110,39 +116,26 @@ public class UI_LoginScene : MonoBehaviour
     {
         // 1. 이메일 입력을 확인한다.
         string email = LoginInputFields.EmailInputField.text;
-        if (string.IsNullOrEmpty(email))
+        var emailSpecification = new AccountEmailSpecification();
+        if (!emailSpecification.IsSatisfiedBy(email))
         {
-            LoginInputFields.ResultText.text = "이메일을 입력해주세요.";
+            LoginInputFields.ResultText.text = emailSpecification.ErrorMessage;
             return;
         }
         
         // 2. 비밀번호 입력을 확인한다.
         string password = LoginInputFields.PasswordInputField.text;
-        if (string.IsNullOrEmpty(password))
+        var passwordSpecification = new AccountPasswordSpecification();
+        if (!passwordSpecification.IsSatisfiedBy(password))
         {
-            LoginInputFields.ResultText.text = "비밀번호를 입력해주세요.";
+            LoginInputFields.ResultText.text = passwordSpecification.ErrorMessage;
             return;
         }
         
-        // 3. PlayerPrefs.Get을 이용해서 아이디와 비밀번호가 맞는지 확인한다.
-        if (!PlayerPrefs.HasKey(PREFIX + email))
+        if (AccountManager.Instance.TryLogin(email, password))
         {
-            LoginInputFields.ResultText.text = "아이디와 비밀번호를 확인해주세요.";
-            return;
+            SceneManager.LoadScene(1);
+
         }
-        
-     
-        SceneManager.LoadScene(1);
     }
-    
-    
-    // 아이디와 비밀번호 InputField 값이 바뀌었을 경우에만
-    public void LoginCheck()
-    {
-        string email = LoginInputFields.EmailInputField.text;
-        string password = LoginInputFields.PasswordInputField.text;
-        
-        LoginInputFields.ConfirmButton.enabled = !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password);
-    }
-    
 }
