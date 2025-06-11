@@ -39,7 +39,7 @@ public class AccountManager : MonoBehaviour
             return false;
         }
         
-        string encryptedPassword = CryptoUtil.Encryption(password + SALT);
+        string encryptedPassword = CryptoUtil.Encryption(password, SALT);
         Account account = new Account(email, nickname, encryptedPassword);
         _repository.Save(account.ToDTO());
         
