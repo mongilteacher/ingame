@@ -20,6 +20,7 @@ public class AccountEmailSpecification : ISpecification<string>
             ErrorMessage = "올바른 이메일 형식이 아닙니다.";
             return false;
         }
+        
 
         return true;
     }

@@ -102,13 +102,15 @@ public class UI_LoginScene : MonoBehaviour
             return;
         }
 
-        if (AccountManager.Instance.TryRegister(email, nickname, password))
+        Result result = AccountManager.Instance.TryRegister(email, nickname, password);
+        if (result.IsSuccess)
         {
-            // 5. 로그인 창으로 돌아간다.
-            // (이때 아이디는 자동 입력되어 있다.)
             OnClickGoToLoginButton();
         }
-
+        else
+        {
+            RegisterInputFields.ResultText.text = result.Message;
+        }
     }
 
 
@@ -135,7 +137,10 @@ public class UI_LoginScene : MonoBehaviour
         if (AccountManager.Instance.TryLogin(email, password))
         {
             SceneManager.LoadScene(1);
-
+        }
+        else
+        {
+            LoginInputFields.ResultText.text = "이메일 중복되었습니다.";
         }
     }
 }
