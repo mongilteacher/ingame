@@ -32,6 +32,10 @@ public class AccountManager : MonoBehaviour
         return true;
     }
     
+    public bool TryLogin(string email, string password)
+    {
+        return false;
+    }
 
     public string Encryption(string text)
     {
@@ -53,8 +57,5 @@ public class AccountManager : MonoBehaviour
         return resultText;
     }
     
-    public bool TryLogin(string email, string password)
-    {
-        return false;
-    }
+   
 }

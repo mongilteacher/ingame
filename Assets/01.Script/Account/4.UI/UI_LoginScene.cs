@@ -10,7 +10,8 @@ using UnityEngine.SceneManagement;
 public class UI_InputFields
 {
     public TextMeshProUGUI ResultText;  // 결과 텍스트
-    public TMP_InputField IDInputField;
+    public TMP_InputField EmailInputField;
+    public TMP_InputField NicknameInputField;
     public TMP_InputField PasswordInputField;
     public TMP_InputField PasswordComfirmInputField;
     public Button ConfirmButton;   // 로그인 or 회원가입 버튼
@@ -62,13 +63,15 @@ public class UI_LoginScene : MonoBehaviour
     // 회원가입
     public void Resister()
     {
-        // 1. 아이디 입력을 확인한다.
-        string id = RegisterInputFields.IDInputField.text;
-        if (string.IsNullOrEmpty(id))
+        // 1. 이메일 도메인 규칙을 확인한다.
+        string email = RegisterInputFields.EmailInputField.text;
+        if (string.IsNullOrEmpty(email))
         {
-            RegisterInputFields.ResultText.text = "아이디를 입력해주세요.";
+            RegisterInputFields.ResultText.text = "이메일를 입력해주세요.";
             return;
         }
+        
+        // 2. 닉네임 도메인 규칙을 확인한다.
 
         // 2. 1차 비밀번호 입력을 확인한다.
         string password = RegisterInputFields.PasswordInputField.text;
@@ -93,7 +96,7 @@ public class UI_LoginScene : MonoBehaviour
         }
 
         string nickname = "티모";
-        if (AccountManager.Instance.TryRegister(id, nickname, password))
+        if (AccountManager.Instance.TryRegister(email, nickname, password))
         {
             // 5. 로그인 창으로 돌아간다.
             // (이때 아이디는 자동 입력되어 있다.)
@@ -105,11 +108,11 @@ public class UI_LoginScene : MonoBehaviour
 
     public void Login()
     {
-        // 1. 아이디 입력을 확인한다.
-        string id = LoginInputFields.IDInputField.text;
-        if (string.IsNullOrEmpty(id))
+        // 1. 이메일 입력을 확인한다.
+        string email = LoginInputFields.EmailInputField.text;
+        if (string.IsNullOrEmpty(email))
         {
-            LoginInputFields.ResultText.text = "아이디를 입력해주세요.";
+            LoginInputFields.ResultText.text = "이메일을 입력해주세요.";
             return;
         }
         
@@ -122,7 +125,7 @@ public class UI_LoginScene : MonoBehaviour
         }
         
         // 3. PlayerPrefs.Get을 이용해서 아이디와 비밀번호가 맞는지 확인한다.
-        if (!PlayerPrefs.HasKey(PREFIX + id))
+        if (!PlayerPrefs.HasKey(PREFIX + email))
         {
             LoginInputFields.ResultText.text = "아이디와 비밀번호를 확인해주세요.";
             return;
@@ -136,10 +139,10 @@ public class UI_LoginScene : MonoBehaviour
     // 아이디와 비밀번호 InputField 값이 바뀌었을 경우에만
     public void LoginCheck()
     {
-        string id = LoginInputFields.IDInputField.text;
+        string email = LoginInputFields.EmailInputField.text;
         string password = LoginInputFields.PasswordInputField.text;
         
-        LoginInputFields.ConfirmButton.enabled = !string.IsNullOrEmpty(id) && !string.IsNullOrEmpty(password);
+        LoginInputFields.ConfirmButton.enabled = !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password);
     }
     
 }
