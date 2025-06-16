@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Attendance
+{
+    public readonly DateTime StartDate;                         // 이 출석(이벤트) 언제부터 시작할 것인가?
+    public int DayCount { get; private set; }                   // 출석일
+    public DateTime LastAttendanceDate { get; private set; }    // 마지막 출석일
+
+    private List<AttendanceReward> _rewards;
+  
+    public Attendance(DateTime startDate, DateTime lastAttendanceDate, int dayCount)
+    {
+        if (startDate == new DateTime())
+        {
+            throw new Exception("출석 시작일 startDate가 지정되지 않았습니다.");
+        }
+
+        if (dayCount <= 0)
+        {
+            throw new Exception("출석일은 0보다 작을 수 없습니다.");
+        }
+
+        if (lastAttendanceDate == new DateTime())
+        {
+            throw new Exception("출석 시작일 startDate가 지정되지 않았습니다.");
+        }
+
+        if (lastAttendanceDate < startDate)
+        {
+            throw new Exception("출석일을 이벤트 시작일보다 작을 수 없습니다.");
+        }
+
+        StartDate = startDate;
+        DayCount = dayCount;
+        LastAttendanceDate = lastAttendanceDate;
+        
+        _rewards = new List<AttendanceReward>();
+    }
+
+    public void Check(DateTime date)
+    {
+        if (date == new DateTime())
+        {
+            throw new Exception("출석 체크하는 date가 지정되지 않앗습니다.");
+        }
+        
+        // ToDo: year과 month도 비교한다.
+        if (LastAttendanceDate.Day < date.Day)
+        {
+            DayCount += 1;
+            LastAttendanceDate = date;
+        }
+    }
+
+    public void AddReward(AttendanceReward reward)
+    {
+        if (reward == null)
+        {
+            throw new Exception("출석 보상은 null일 수 없습니다.");
+        }
+        
+        _rewards.Add(reward);
+    }
+
+
+    public bool TryClaim(int day)
+    {
+        if (day < 1 || _rewards.Count < day)
+        {
+            throw new Exception("출석 인덱스가 올바르지 않습니다.");
+        }
+
+        return _rewards[day - 1].TryClaim();
+    }
+}
