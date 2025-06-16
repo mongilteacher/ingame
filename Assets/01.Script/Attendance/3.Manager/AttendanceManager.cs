@@ -9,7 +9,7 @@ public class AttendanceManager : MonoBehaviour
 
     [SerializeField]
     private List<AttendanceSO> _attendanceSoList;
-    
+
     private List<Attendance> _attendances;
     
     
@@ -44,7 +44,7 @@ public class AttendanceManager : MonoBehaviour
                 continue;
             }
 
-            Attendance attendance = new Attendance(atttendanceSo.StartDate, today, 1);
+            Attendance attendance = new Attendance(atttendanceSo.ID, atttendanceSo.StartDate, today, 1);
             foreach (var atendanceRewardSO in atttendanceSo.AttendanceRewards)
             {
                 attendance.AddReward(new AttendanceReward(atendanceRewardSO.CurrencyType, atendanceRewardSO.Amount, false));
@@ -55,6 +55,17 @@ public class AttendanceManager : MonoBehaviour
         
         StartCoroutine(Check_Coroutine());
     }
+
+    public AttendanceDTO GetAttendance(int index)
+    {
+        if (index < 0 || _attendances.Count <= index)
+        {
+            throw new ArgumentOutOfRangeException("출석 이벤트 인덱스가 범위를 벗어납니다.");
+        }
+
+        return _attendances[index].ToDTO();
+    }
+    
 
     private IEnumerator Check_Coroutine()
     {

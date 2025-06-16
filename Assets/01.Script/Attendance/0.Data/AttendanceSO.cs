@@ -6,6 +6,11 @@ using UnityEngine;
 public class AttendanceSO : ScriptableObject
 {
     [SerializeField]
+    private string _id;
+    public string ID => _id;
+    
+    
+    [SerializeField]
     private string _startDate;
 
     public DateTime StartDate => DateTime.Parse(_startDate);
