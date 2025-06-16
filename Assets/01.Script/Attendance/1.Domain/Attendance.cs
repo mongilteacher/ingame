@@ -71,6 +71,26 @@ public class Attendance
         _rewards.Add(reward);
     }
 
+    public AttendanceRewardDTO GetReward(int index)
+    {
+        if (index < 0 || _rewards.Count <= index)
+        {
+            throw new Exception("유효하지 않은 보상 범위입니다.");
+        }
+
+        AttendanceReward reward = _rewards[index];
+        return new AttendanceRewardDTO(reward.CurrencyType, reward.Amount, reward.Claimed, CanClaim(index));
+    }
+
+    public bool CanClaim(int index)
+    {
+        if (index < 0 || _rewards.Count <= index)
+        {
+            throw new Exception("유효하지 않은 보상 범위입니다.");
+        }
+
+        return !_rewards[index].Claimed && DayCount >= index;
+    }
 
     public bool TryClaim(int day)
     {

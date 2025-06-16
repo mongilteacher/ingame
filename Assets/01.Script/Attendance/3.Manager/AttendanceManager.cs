@@ -44,6 +44,11 @@ public class AttendanceManager : MonoBehaviour
                 continue;
             }
 
+            if (FindById(atttendanceSo.ID) != null)
+            {
+                throw new Exception("중복된 출석체크 이벤트입니다.");
+            }
+            
             Attendance attendance = new Attendance(atttendanceSo.ID, atttendanceSo.StartDate, today, 1);
             foreach (var atendanceRewardSO in atttendanceSo.AttendanceRewards)
             {
@@ -56,14 +61,45 @@ public class AttendanceManager : MonoBehaviour
         StartCoroutine(Check_Coroutine());
     }
 
-    public AttendanceDTO GetAttendance(int index)
+    private Attendance FindById(string id)
     {
-        if (index < 0 || _attendances.Count <= index)
+        Attendance attendance = _attendances.Find(x => x.ID == id);
+
+        return attendance;
+    }
+    
+    public AttendanceDTO GetAttendance(string id)
+    {
+        Attendance attendance = FindById(id);
+        if (attendance == null)
         {
-            throw new ArgumentOutOfRangeException("출석 이벤트 인덱스가 범위를 벗어납니다.");
+            throw new Exception("Attendance not found");
         }
 
-        return _attendances[index].ToDTO();
+        return attendance.ToDTO();
+    }
+
+    public bool TryRewardClaim(string attendanceID, int index)
+    {
+        Attendance attendance = FindById(attendanceID);
+        if (attendance == null)
+        {
+            return false;
+        }
+
+        if (attendance.TryClaim(index))
+        {
+            AttendanceRewardDTO reward = attendance.GetReward(index);
+            
+            return true;
+            
+            CurrencyManager.Instance.Add(reward.CurrencyType, reward.Amount);
+            
+            OnDataChanged?.Invoke();
+        }
+
+
+        return false;
     }
     
 

@@ -15,11 +15,13 @@ public class UI_Attendance : MonoBehaviour
     
     private void Refresh()
     {
-        AttendanceDTO attendance = AttendanceManager.Instance.GetAttendance(0);
+        AttendanceDTO attendance = AttendanceManager.Instance.GetAttendance("3day");
 
+        int index = 0;
         foreach (var slot in Slots)
         {
-            slot.Refresh(attendance.Rewards[0]);
+            slot.Refresh(attendance.ID, index, attendance.Rewards[0]);
+            index++;
         }
     }
 }
