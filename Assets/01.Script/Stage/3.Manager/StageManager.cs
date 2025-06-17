@@ -10,8 +10,11 @@ public class StageManager : MonoBehaviour
     public event Action OnDataChanged;
     
     [SerializeField] 
-    private List<StageLevel> _levelSOList;
-    public Stage _stage;
+    private List<StageLevelSO> _levelSOList;
+    private Stage _stage;
+    
+    // Todo: StageDTO 반환하게끔
+    public Stage Stage => _stage;
     
     private void Awake()
     {
@@ -30,6 +33,12 @@ public class StageManager : MonoBehaviour
 
     private void Init()
     {
-        _stage = new Stage(0, 17, _levelSOList);
+        _stage = new Stage(1, 2, 17, _levelSOList);
+        OnDataChanged?.Invoke();
+    }
+
+    private void Update()
+    {
+        _stage.Progress(Time.deltaTime, OnDataChanged);
     }
 }

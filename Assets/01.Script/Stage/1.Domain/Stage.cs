@@ -7,6 +7,11 @@ public class Stage
     public int SubLevelNumber => _currentLevel.CurrentLevel;
     
     private StageLevel _currentLevel;
+    
+    // ToDO: StageLevelDTO
+    public StageLevel CurrentLevel => _currentLevel;
+    
+    
     private float _progressTime;
     
     public List<StageLevel> Levels { get; private set; } = new List<StageLevel>();
@@ -68,7 +73,7 @@ public class Stage
         Levels.Add(level);
     }
 
-    public void Progress(float dt)
+    public void Progress(float dt, Action onDateChanged)
     {
         _progressTime += dt;
 
@@ -81,6 +86,8 @@ public class Stage
                 LevelNumber += 1;
                 _currentLevel = Levels[LevelNumber - 1];
             }
+            
+            onDateChanged?.Invoke();
         }
     }
 }
