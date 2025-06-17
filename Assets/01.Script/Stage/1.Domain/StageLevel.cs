@@ -16,6 +16,11 @@ public class StageLevel
     // 상태 데이터             
     public int CurrentLevel; // StartLevel ~ EndLevel
 
+
+    public StageLevel(StageLevelSO so, int currentLevel) : this(so.Name, so.StartLevel, so.EndLevel, so.HealthFactor, so.DamageFactor, so.SpawnInterval, so.SpawnRate, currentLevel)
+    {
+    }
+    
     public StageLevel(string name, int startLevel, int endLevel, float healthFactor, float damageFactor, float spawnInterval, float spawnRate , int currentLevel)
     {
         if (string.IsNullOrEmpty(name))
