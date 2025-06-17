@@ -25,7 +25,7 @@ public class Stage
         
         
         LevelNumber = LevelNumber;
-        _progressTime = _progressTime;
+        _progressTime = progressTime;
     }
     
     public void AddLevel(StageLevel level)
