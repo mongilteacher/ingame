@@ -4,6 +4,7 @@ using UnityEngine.ProBuilder.Shapes;
 public class StageLevel 
 {
     // 기획 데이터
+    public readonly string Name;
     public readonly int StartLevel;             // 시작 레벨
     public readonly int EndLevel;               // 종료 레벨
     public float HealthFactor;                  // 체력 배율
@@ -15,8 +16,13 @@ public class StageLevel
     // 상태 데이터             
     public int CurrentLevel; // StartLevel ~ EndLevel
 
-    public StageLevel(int startLevel, int endLevel, float healthFactor, float damageFactor, float spawnInterval, float spawnRate , int currentLevel)
+    public StageLevel(string name, int startLevel, int endLevel, float healthFactor, float damageFactor, float spawnInterval, float spawnRate , int currentLevel)
     {
+        if (string.IsNullOrEmpty(name))
+        {
+            throw new Exception("올바르지 않은 name입니다.");
+        }
+        
         if (startLevel < 0 || endLevel <= startLevel)
         {
             throw new Exception("시작 레벨이 올바르지 않습니다.");
@@ -49,7 +55,8 @@ public class StageLevel
         {
             throw new Exception("현재 레벨이 올바르지 않습니다.");
         }
-        
+
+        Name = name;
         StartLevel = startLevel;
         EndLevel = endLevel;
         HealthFactor = healthFactor;
