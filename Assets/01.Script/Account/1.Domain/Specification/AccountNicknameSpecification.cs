@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class AccountNicknameSpecification : ISpecification<string>
 {
-    // 닉네임: 한글 또는 영어로 구성, 2~7자
-    private static readonly Regex NicknameRegex = new Regex(@"^[가-힣a-zA-Z]{2,7}$", RegexOptions.Compiled);
+    // 닉네임: 한글 또는 영어로 구성, 2~12자
+    private static readonly Regex NicknameRegex = new Regex(@"^[0-9가-힣a-zA-Z]{2,12}$", RegexOptions.Compiled);
 
     // 금지된 닉네임 (비속어 등)
     private static readonly string[] ForbiddenNicknames = { "바보", "멍청이", "운영자", "김홍일" };    
@@ -19,7 +19,7 @@ public class AccountNicknameSpecification : ISpecification<string>
 
         if (!NicknameRegex.IsMatch(value))
         {
-            ErrorMessage = "닉네임은 2자 이상 7자 이하의 한글 또는 영문이어야 합니다.";
+            ErrorMessage = "닉네임은 2자 이상 12자 이하의 한글 또는 영문이어야 합니다.";
             return false;
         }
         

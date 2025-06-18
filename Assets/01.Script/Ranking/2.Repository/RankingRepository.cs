@@ -10,14 +10,14 @@ public class RankingRepository
         // 이준엽 : "GTP가 모킹데이터 잘 만들어준다! 100개 만들어보자"
         return new List<RankingSaveData>()
         {
-            new RankingSaveData(1813, "test1@test.com", "냉철한토끼65"),
-            new RankingSaveData(2721, "test2@test.com", "빛나는호랑이922"),
-            new RankingSaveData(2960, "test3@test.com", "달콤한햄스터489"),
-            new RankingSaveData(2263, "test4@test.com", "따뜻한토끼754"),
-            new RankingSaveData(1552, "test5@test.com", "귀여운여우451"),
-            new RankingSaveData(2086, "test6@test.com", "행복한고양이621"),
-            new RankingSaveData(2065, "test7@test.com", "따뜻한햄스터558"),
-            new RankingSaveData(1211, "test8@test.com", "우주고양이980"),
+            new RankingSaveData(1813, "test1@test.com", "냉철한토끼"),
+            new RankingSaveData(2721, "test2@test.com", "빛나는호랑이"),
+            new RankingSaveData(2960, "test3@test.com", "달콤한햄스터"),
+            new RankingSaveData(2263, "test4@test.com", "따뜻한토끼"),
+            new RankingSaveData(1552, "test5@test.com", "귀여운여우"),
+            new RankingSaveData(2086, "test6@test.com", "행복한고양이"),
+            new RankingSaveData(2065, "test7@test.com", "따뜻한햄스터"),
+            new RankingSaveData(1211, "test8@test.com", "우주고양이"),
             new RankingSaveData(2139, "test9@test.com", "무서운사자570"),
             new RankingSaveData(1469, "test10@test.com", "우주토끼732"),
             new RankingSaveData(2786, "test11@test.com", "행복한여우85"),

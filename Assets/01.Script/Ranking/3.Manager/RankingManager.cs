@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class RankingManager : MonoBehaviourSingleton<RankingManager>
 {
     private RankingRepository _repository;
     
+    
     private List<Ranking> _rankings;
+    public List<RankingDTO> Rankings => _rankings.ConvertAll(r => r.ToDTO());
+    
+    
     private Ranking _myRanking;
+    public RankingDTO MyRanking => _myRanking.ToDTO();
 
     public event Action OnDataChanged;
     
@@ -27,7 +33,9 @@ public class RankingManager : MonoBehaviourSingleton<RankingManager>
         _rankings = new List<Ranking>();
         foreach (RankingSaveData saveData in saveDatList)
         {
+            
             Ranking ranking = new Ranking(saveData.Email, saveData.Nickname,  saveData.Score);
+            Debug.Log(ranking.Nickname);
             _rankings.Add(ranking);
 
             if (ranking.Email == AccountManager.Instance.CurrentAccount.Email)
@@ -52,11 +60,22 @@ public class RankingManager : MonoBehaviourSingleton<RankingManager>
 
     private void Sort()
     {
-        _rankings.Sort((r1, r2) => r1.Score.CompareTo(r2));
+        _rankings.Sort((r1, r2) => r2.Score.CompareTo(r1.Score));
 
         for (int i = 0; i < _rankings.Count; i++)
         {
             _rankings[i].SetRank(i + 1);
         }
+    }
+
+    public void AddScore(int score)
+    {
+        _myRanking.AddScore(score);
+
+        Sort();
+        
+        // Save
+        
+        OnDataChanged?.Invoke();
     }
 }

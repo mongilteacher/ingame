@@ -5656,7 +5656,7 @@ GameObject:
   - component: {fileID: 1523256851}
   - component: {fileID: 1523256849}
   m_Layer: 5
-  m_Name: ID
+  m_Name: Email
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5960,7 +5960,7 @@ MonoBehaviour:
   ResisterPanel: {fileID: 995382365}
   LoginInputFields:
     ResultText: {fileID: 602601505}
-    EmailInputField: {fileID: 1436042107}
+    EmailInputField: {fileID: 2074820064}
     NicknameInputField: {fileID: 0}
     PasswordInputField: {fileID: 1229916893}
     PasswordComfirmInputField: {fileID: 0}

@@ -52,4 +52,9 @@ public class Ranking
 
         Score += score;
     }
+
+    public RankingDTO ToDTO()
+    {
+        return new RankingDTO(this);
+    }
 }
