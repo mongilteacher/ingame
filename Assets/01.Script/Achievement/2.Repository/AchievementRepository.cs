@@ -22,6 +22,10 @@ public class AchievementRepository
 
     public List<AchievementSaveData> Load()
     {
+       
+        
+        
+        
         if (!PlayerPrefs.HasKey(SAVE_KEY))
         {
             return null;
