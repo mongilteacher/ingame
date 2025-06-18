@@ -2386,6 +2386,7 @@ GameObject:
   - component: {fileID: 1121694632}
   - component: {fileID: 1121694633}
   - component: {fileID: 1121694634}
+  - component: {fileID: 1121694635}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -2466,6 +2467,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attendanceSoList:
   - {fileID: 11400000, guid: a5c4b216869388d43b6984f9389284fa, type: 2}
+--- !u!114 &1121694635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121694629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121c519c96c847b88f74d666fa22be75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1123086188
 GameObject:
   m_ObjectHideFlags: 0

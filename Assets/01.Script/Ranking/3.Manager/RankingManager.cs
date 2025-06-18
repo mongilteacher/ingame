@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class RankingManager : MonoBehaviourSingleton<RankingManager>
 {
@@ -6,6 +7,8 @@ public class RankingManager : MonoBehaviourSingleton<RankingManager>
     
     private List<Ranking> _rankings;
     private Ranking _myRanking;
+
+    public event Action OnDataChanged;
     
     protected override void Awake()
     {
@@ -37,6 +40,23 @@ public class RankingManager : MonoBehaviourSingleton<RankingManager>
         {
             AccountDTO me = AccountManager.Instance.CurrentAccount;
             _myRanking = new Ranking(me.Email, me.Nickname, 0);
+            
+            _rankings.Add(_myRanking);
+        }
+
+        Sort();
+        
+        OnDataChanged?.Invoke();
+    }
+
+
+    private void Sort()
+    {
+        _rankings.Sort((r1, r2) => r1.Score.CompareTo(r2));
+
+        for (int i = 0; i < _rankings.Count; i++)
+        {
+            _rankings[i].SetRank(i + 1);
         }
     }
 }

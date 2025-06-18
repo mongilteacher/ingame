@@ -22,7 +22,7 @@ public class EnemySpanwer : MonoBehaviour
 
     private void Refresh()
     {
-        _stageLevel = StageManager.Instance.Stage.CurrentLevel;
+      // _stageLevel = StageManager.Instance.Stage.CurrentLevel;
     }
     
     private void Update()
