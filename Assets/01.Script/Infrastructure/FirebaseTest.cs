@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
@@ -40,23 +42,23 @@ public class FirebaseTest : MonoBehaviour
         });
     }
 
-    private void Register()
+    private async void Register()
     {
         var email = "teemo@gmail.com";
         var password = "123456";
 
-        _auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+        try
         {
-            if (task.IsCanceled || task.IsFaulted)
-            {
-                Debug.LogError($"회원가입에 실패했습니다: ${task.Exception.Message}");
-                return;
-            }
-
-            // Firebase user has been created.
-            var result = task.Result;
+            var result = await _auth.CreateUserWithEmailAndPasswordAsync(email, password);
             Debug.LogFormat("회원가입에 성공했습니다: {0} ({1})", result.User.DisplayName, result.User.UserId);
-        });
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
     }
 
     private void Login()
@@ -77,8 +79,10 @@ public class FirebaseTest : MonoBehaviour
 
             NicknameChange();
 
-            AddMyRanking();
-            GetMyRanking();
+            //AddMyRanking();
+            //GetMyRanking();
+            
+            GetRankings();
         });
     }
 
@@ -119,8 +123,9 @@ public class FirebaseTest : MonoBehaviour
 
     private void AddMyRanking()
     {
-        var ranking = new Ranking("huhuhu@gmail.com", "허허허", 7900);
-
+        
+        Ranking ranking = new Ranking("huhuhu@gmail.com", "허허sdfsdfs32d허", 7900);
+        
         var rankingDict = new Dictionary<string, object>
         {
             { "Email", ranking.Email },
@@ -165,6 +170,31 @@ public class FirebaseTest : MonoBehaviour
             else
             {
                 Debug.Log(string.Format("Document {0} does not exist!", snapshot.Id));
+            }
+        });
+    }
+
+
+    private void GetRankings()
+    {
+        // 쿼리(질의)란 컬렉션으로부터 데이터를 가져올때 어떻게 가져와라라고 쓰는 명령문
+        Query allRankingsQuery = _db.Collection("rankings").OrderByDescending("Score");
+        
+        allRankingsQuery.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        {
+            QuerySnapshot allCitiesQuerySnapshot = task.Result;
+            
+            foreach (DocumentSnapshot documentSnapshot in allCitiesQuerySnapshot.Documents)
+            {
+                Debug.Log(String.Format("Document data for {0} document:", documentSnapshot.Id));
+                Dictionary<string, object> ranking = documentSnapshot.ToDictionary();
+                foreach (KeyValuePair<string, object> pair in ranking)
+                {
+                    Debug.Log(String.Format("{0}: {1}", pair.Key, pair.Value));
+                }
+
+                // Newline to separate entries
+                Debug.Log("");
             }
         });
     }
